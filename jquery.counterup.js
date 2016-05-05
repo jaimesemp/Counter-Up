@@ -50,16 +50,31 @@
                         newNum = newNum.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
                     }
                 }
-
                 nums.unshift(newNum);
             }
-
             $this.data('counterup-nums', nums);
             $this.text('0');
 
             // Updates the number until we're done
             var f = function() {
                 $this.text($this.data('counterup-nums').shift());
+                var numsleft = ($this.data('counterup-nums').length);
+                //simulate exponential delay curve (quick and dirty, a math function would be a better alternative):
+                if (numsleft == 32){
+                  $settings.delay= $settings.delay*2;
+                }
+                if (numsleft == 26){
+                  $settings.delay= $settings.delay*2;
+                }
+                if (numsleft == 16){
+                  $settings.delay= $settings.delay*2;
+                }
+                if (numsleft == 9){
+                  $settings.delay= $settings.delay*2;
+                }
+                if (numsleft == 3){
+                  $settings.delay= $settings.delay*4;
+                }
                 if ($this.data('counterup-nums').length) {
                     setTimeout($this.data('counterup-func'), $settings.delay);
                 } else {
@@ -69,13 +84,10 @@
                 }
             };
             $this.data('counterup-func', f);
-
             // Start the count up
             setTimeout($this.data('counterup-func'), $settings.delay);
         };
-
-        // Perform counts when the element gets into view
-        $this.waypoint(counterUpper, { offset: '100%', triggerOnce: true });
+        counterUpper({ offset: '100%', triggerOnce: true });
     });
 
   };
